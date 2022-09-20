@@ -1,0 +1,27 @@
+﻿@page
+@using System.Data.SqlClient;
+@{
+    try
+    {
+        String id = Request.Query["id"];
+
+        string connectionString = "Server=tcp:mycoworkers.database.windows.net,1433;Initial Catalog=MyCoworkers;Persist Security Info=False;User ID=masoncomia;Password=091823Mtcf-;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+
+            String sql = "DELETE FROM clients WHERE id=@id";
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@id", id);
+
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+    catch (Exception ex) 
+    {
+    }
+
+    Response.Redirect("/Coworkers/Index");
+}
